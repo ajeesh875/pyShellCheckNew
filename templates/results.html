@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analysis Results</title>
+    <link rel="stylesheet" href="../static/styles.css">
+</head>
+<body>
+    <header class="header">
+        <h1>Shell Script Analyzer</h1>
+    </header>
+    <div class="container">
+        <h2 class="subheader">Analysis Results</h2>
+        <div class="results">
+            <h3>Script Path:</h3>
+            <p class="script-path">{{ results.script_path }}</p>
+            <h3>Vulnerabilities:</h3>
+            <ul class="vulnerabilities-list">
+                {% for description, vulnerabilities in results.vulnerabilities.items() %}
+                    <li class="vulnerability-description">{{ description }}</li>
+                    <ul class="vulnerability-details">
+                        {% for line_number, word in vulnerabilities %}
+                            <li>Line {{ line_number }}: {{ word }}</li>
+                        {% endfor %}
+                    </ul>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+</body>
+</html>

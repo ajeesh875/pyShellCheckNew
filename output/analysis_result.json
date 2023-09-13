@@ -1,0 +1,15 @@
+{
+    "vulnerabilities": {
+        "Command Injection vulnerability detected.": [
+            [
+                7,
+                "$(echo \"User input: $user_input\")"
+            ],
+            [
+                11,
+                "$(echo \"User input: $user_input1\")"
+            ]
+        ]
+    },
+    "script_path": "scripts/example.sh"
+}
