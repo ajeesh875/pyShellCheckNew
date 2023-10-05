@@ -1,32 +1,59 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Analysis Results</title>
-    <link rel="stylesheet" href="../static/styles.css">
+    <title>Script Analysis Results</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='bootstrap/css/bootstrap.min.css') }}">
 </head>
-<body>
-    <header class="header">
-        <h1>Shell Script Analyzer</h1>
+
+<body class="bg-light">
+    <header class="bg-dark text-white text-center py-3">
+        <div class="container">
+            <h1 class="display-5">Script Analysis Results</h1>
+        </div>
     </header>
-    <div class="container">
-        <h2 class="subheader">Analysis Results</h2>
-        <div class="results">
-            <h3>Script Path:</h3>
-            <p class="script-path">{{ results.script_path }}</p>
-            <h3>Vulnerabilities:</h3>
-            <ul class="vulnerabilities-list">
-                {% for description, vulnerabilities in results.vulnerabilities.items() %}
-                    <li class="vulnerability-description">{{ description }}</li>
-                    <ul class="vulnerability-details">
-                        {% for line_number, word in vulnerabilities %}
-                            <li>Line {{ line_number }}: {{ word }}</li>
-                        {% endfor %}
-                    </ul>
+
+    <div class="container mt-5">
+        {% for description, items in results.vulnerabilities.items() %}
+        <section class="mb-4">
+            <h2>{{ description }}</h2>
+            <ul class="list-group">
+                {% for item in items %}
+                <li class="list-group-item">
+                    <p class="mb-1">
+                        <span class="font-weight-bold">Line {{ item.line_number }}:</span>
+                        <span class="ml-2">{{ item.word }}</span>
+                    </p>
+                    {% if item.cve %}
+                    <p class="mb-0 text-muted">
+                        CVE: {{ item.cve }} - {{ item.explanation }}
+                    </p>
+                    {% endif %}
+                </li>
                 {% endfor %}
             </ul>
+        </section>
+        {% endfor %}
+
+        <div class="download-links">
+            <a href="{{ url_for('download_result', format='html') }}" class="btn btn-primary">Download as HTML</a>
+            <a href="{{ url_for('download_result', format='json') }}" class="btn btn-primary">Download as JSON</a>
         </div>
+
+        <footer class="mt-5 border-top pt-3">
+            <p class="mb-1">Script Path: {{ results.script_path }}</p>
+        </footer>
     </div>
+
+    <footer class="bg-light text-center py-3">
+        <div class="container">
+            <p class="mb-0 text-muted">&copy; 2023 Script Analysis Results</p>
+        </div>
+    </footer>
+
+    <script src="{{ url_for('static', filename='bootstrap/js/bootstrap.bundle.min.js') }}"></script>
 </body>
+
 </html>

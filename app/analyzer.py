@@ -10,27 +10,32 @@ class ScriptAnalyzer:
         config_file = "config/regex_config.json"
         with open(config_file, 'r') as file:
             json_content = json.load(file)
-            # Load the regular expressions and descriptions from the JSON config file
-        return [(content['pattern'], content['description']) for content in json_content]
+        return [
+            (content['pattern'], content['description'], content.get('cve'), content.get('explanation'))
+            for content in json_content
+        ]
 
     def analyze_vulnerabilities(self, script_content):
         vulnerabilities = defaultdict(list)
         script_lines = script_content.splitlines()
-        line_number = 1
 
-        for line in script_lines:
-            for pattern_data, description in self.regex_config:
+        for line_number, line in enumerate(script_lines, start=1):
+            for pattern_data, description, cve, explanation in self.regex_config:
                 pattern = re.compile(pattern_data)
                 matches = pattern.finditer(line)
 
                 for match in matches:
                     start, end = match.span()
                     word = line[start:end]
-                    vulnerabilities[description].append((line_number, word))
+                    vulnerability_data = {
+                        "line_number": line_number,
+                        "word": word,
+                        "cve": cve,
+                        "explanation": explanation
+                    }
+                    vulnerabilities[description].append(vulnerability_data)
 
-            line_number += 1
-
-        return vulnerabilities
+        return dict(vulnerabilities)
 
     def save_uploaded_script(self, file):
         script_path = f'scripts/{file.filename}'
