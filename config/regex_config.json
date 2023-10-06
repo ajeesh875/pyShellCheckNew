@@ -1,62 +1,86 @@
 [
     {
+        "rule_number": 1,
         "pattern": "\\$\\((.*?)\\)",
         "description": "Command Injection vulnerability detected.",
         "cve": "CWE-78",
         "explanation": "Command injection vulnerabilities arise when untrusted data is incorporated into a command that is then executed by the system. Attackers can inject malicious commands, leading to unauthorized access or other security issues."
     },
     {
+        "rule_number": 2,
         "pattern": "\\$[a-zA-Z_][a-zA-Z0-9_]*\\s*=",
         "description": "Unsafe Variable Usage detected.",
         "cve": "CWE-134",
         "explanation": "Unsafe variable usage occurs when variables are used in a way that may lead to security vulnerabilities. This includes using variables without proper sanitation, potentially exposing sensitive information."
     },
     {
+        "rule_number": 3,
         "pattern": "\\b(?:rm|mv|cp|chmod)\\s+\\S+",
         "description": "Potentially Dangerous Command detected.",
         "cve": "CWE-78",
         "explanation": "Commands like 'rm', 'mv', 'cp', and 'chmod' can be dangerous when used with user-controlled inputs. These commands can lead to unintended file operations and security risks."
     },
     {
+        "rule_number": 4,
         "pattern": "\\bcat\\s+/etc/passwd",
         "description": "Attempted Access to Sensitive File detected.",
         "cve": "CWE-200",
         "explanation": "Accessing sensitive files, such as '/etc/passwd', can lead to unauthorized disclosure of sensitive information. This behavior can be exploited by attackers for reconnaissance purposes."
     },
     {
+        "rule_number": 5,
         "pattern": "\\bwget\\s+http://malicious-site\\.com",
         "description": "Potential Download from Malicious Site detected.",
         "cve": "CWE-829",
         "explanation": "Downloading content from untrusted or malicious sites can expose systems to various risks, including the possibility of downloading and executing malicious content."
     },
     {
+        "rule_number": 6,
         "pattern": "\\b(?:curl|fetch)\\s+http://malicious-site\\.com",
         "description": "Potential Download from Malicious Site detected (alternative).",
         "cve": "CWE-829",
         "explanation": "Alternative commands like 'curl' or 'fetch' used for downloading from untrusted sites can also pose security risks, including potential malicious content retrieval."
     },
     {
+        "rule_number": 7,
         "pattern": "\\b(?:echo|printf)\\s+[\"'].*?\\$\\(.*?\\)",
         "description": "Potential Command Injection via Echo/Printf detected.",
         "cve": "CWE-78",
         "explanation": "Using 'echo' or 'printf' with untrusted inputs can result in command injection vulnerabilities. Attackers may inject malicious commands into the output, leading to security issues."
     },
     {
+        "rule_number": 8,
         "pattern": "\\b(?:sudo|su)\\s+\\S+",
         "description": "Elevated Privilege Usage detected.",
         "cve": "CWE-250",
         "explanation": "Elevated privilege usage, such as 'sudo' or 'su', can lead to security risks if not properly configured. Unauthorized access to privileged commands can result in system compromise."
     },
     {
+        "rule_number": 9,
         "pattern": "\\b(?:ssh|scp)\\s+.*?@[a-zA-Z0-9.-]+",
         "description": "Potential Secure Shell Command detected.",
         "cve": "CWE-250",
         "explanation": "Commands related to Secure Shell (SSH), such as 'ssh' or 'scp', should be used securely. Detecting usage with specific patterns can help identify potential security risks in SSH operations."
     },
     {
+        "rule_number": 10,
         "pattern": "\\b(?:grep|awk|sed)\\s+-e\\s+",
         "description": "Use of -e flag in grep, awk, or sed detected.",
         "cve": "CWE-78",
         "explanation": "The use of the '-e' flag in commands like 'grep', 'awk', or 'sed' may introduce vulnerabilities if the expression is not properly sanitized. This can lead to unintended command execution."
+    },
+    {
+        "rule_number": 11,
+        "pattern": "\\b(?:cat|head|tail)\\s+\\S+\\.log",
+        "description": "Access to Log Files detected.",
+        "cve": "CWE-200",
+        "explanation": "Accessing log files can expose sensitive information. This behavior may indicate an attempt to view or manipulate log files for malicious purposes."
+    },
+    {
+        "rule_number": 12,
+        "pattern": "\\b(?:wget|curl|fetch)\\s+-O\\s+",
+        "description": "File Download with Output specified detected.",
+        "cve": "CWE-829",
+        "explanation": "Downloading files with user-specified output paths can lead to security risks. It may allow an attacker to overwrite or create files in unintended locations."
     }
 ]
