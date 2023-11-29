@@ -16,26 +16,42 @@
     </header>
 
     <div class="container mt-5">
-        {% for description, items in results.vulnerabilities.items() %}
+        {% for result in results %}
+    <h3>Results for {{ result.filename }}</h3>
+
+    {% for description, items in result.vulnerabilities.items() %}
         <section class="mb-4">
-            <h2>{{ description }}</h2>
             <ul class="list-group">
                 {% for item in items %}
-                <li class="list-group-item">
-                    <p class="mb-1">
-                        <span class="font-weight-bold">Line {{ item.line_number }}:</span>
-                        <span class="ml-2">{{ item.word }}</span>
-                    </p>
-                    {% if item.cve %}
-                    <p class="mb-0 text-muted">
-                        CVE: {{ item.cve }} - {{ item.explanation }}
-                    </p>
-                    {% endif %}
-                </li>
+                    <li class="list-group-item">
+                        <p class="mb-1">
+                            <span class="font-weight-bold">{{ description }}</span>
+                            <span class="font-weight-bold">Line {{ item.line_number }}:</span>
+                            <span class="ml-2">{{ item.word }}</span>
+                        </p>
+                        {% if item.cve %}
+                            <p class="mb-0 text-muted">
+                                CVE: {{ item.cve }} - {{ item.explanation }}
+                            </p>
+                        {% endif %}
+                        <p class="mb-0">
+                            <span class="font-weight-bold">Severity:</span>
+                            {% if item.severity >= 9 %}
+                                <span class="text-danger">Critical</span>
+                            {% elif item.severity == 8 %}
+                                <span class="text-warning">High</span>
+                            {% elif item.severity in [6, 7] %}
+                                <span class="text-info">Medium</span>
+                            {% else %}
+                                <span class="text-success">Low</span>
+                            {% endif %}
+                        </p>
+                    </li>
                 {% endfor %}
             </ul>
         </section>
-        {% endfor %}
+    {% endfor %}
+{% endfor %}
 
         <div class="download-links">
             <a href="{{ url_for('download_result', format='html') }}" class="btn btn-primary">Download as HTML</a>

@@ -13,16 +13,30 @@
         <header class="bg-dark text-white text-center py-4">
             <div class="container">
                 <h1 class="display-4">Shell Script Analyzer</h1>
-                <p class="lead">Upload a Shell Script File for Analysis</p>
+                <p class="lead">Upload a Shell Script File or Folder for Analysis</p>
             </div>
         </header>
 
         <div class="container mt-4">
             <form method="POST" enctype="multipart/form-data">
                 <div class="mb-3">
-                    <label for="fileInput" class="form-label">Choose a file</label>
-                    <input type="file" name="file" class="form-control" id="fileInput">
+                    <label for="actionSelect" class="form-label">Select an action</label>
+                    <select class="form-select" id="actionSelect" name="selectedAction" required>
+                        <option value="folder">Choose a folder</option>
+                        <option value="files">Choose files</option>
+                    </select>
                 </div>
+
+                <div id="folderOption" class="mb-3">
+                    <label for="folderInput" class="form-label">Choose a folder</label>
+                    <input type="file" name="file_or_folder" class="form-control" id="folderInput" webkitdirectory directory>
+                </div>
+
+                <div id="filesOption" class="mb-3" style="display: none;">
+                    <label for="fileInput" class="form-label">Choose files</label>
+                    <input type="file" name="files[]" class="form-control" id="fileInput" multiple>
+                </div>
+
                 <button type="submit" class="btn btn-primary">Upload</button>
             </form>
         </div>
@@ -35,6 +49,20 @@
     </div>
 
     <script src="{{ url_for('static', filename='bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+    <script>
+        document.getElementById('actionSelect').addEventListener('change', function () {
+            var folderOption = document.getElementById('folderOption');
+            var filesOption = document.getElementById('filesOption');
+
+            if (this.value === 'folder') {
+                folderOption.style.display = 'block';
+                filesOption.style.display = 'none';
+            } else {
+                folderOption.style.display = 'none';
+                filesOption.style.display = 'block';
+            }
+        });
+    </script>
 </body>
 
 </html>

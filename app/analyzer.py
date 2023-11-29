@@ -1,6 +1,10 @@
+# analyzer.py
+
+import os
 import re
 import json
 from collections import defaultdict
+from werkzeug.utils import secure_filename
 
 class ScriptAnalyzer:
     def __init__(self):
@@ -11,7 +15,13 @@ class ScriptAnalyzer:
         with open(config_file, 'r') as file:
             json_content = json.load(file)
         return [
-            (content['pattern'], content['description'], content.get('cve'), content.get('explanation'))
+            {
+                "pattern": content['pattern'],
+                "description": content['description'],
+                "cve": content.get('cve'),
+                "explanation": content.get('explanation'),
+                "severity": content['severity']
+            }
             for content in json_content
         ]
 
@@ -20,8 +30,8 @@ class ScriptAnalyzer:
         script_lines = script_content.splitlines()
 
         for line_number, line in enumerate(script_lines, start=1):
-            for pattern_data, description, cve, explanation in self.regex_config:
-                pattern = re.compile(pattern_data)
+            for rule in self.regex_config:
+                pattern = re.compile(rule["pattern"])
                 matches = pattern.finditer(line)
 
                 for match in matches:
@@ -30,15 +40,16 @@ class ScriptAnalyzer:
                     vulnerability_data = {
                         "line_number": line_number,
                         "word": word,
-                        "cve": cve,
-                        "explanation": explanation
+                        "cve": rule["cve"],
+                        "explanation": rule["explanation"],
+                        "severity": rule["severity"]
                     }
-                    vulnerabilities[description].append(vulnerability_data)
-
+                    vulnerabilities[rule["description"]].append(vulnerability_data)
         return dict(vulnerabilities)
 
     def save_uploaded_script(self, file):
-        script_path = f'scripts/{file.filename}'
+        script_filename = secure_filename(file.filename)
+        script_path = os.path.join('scripts', script_filename)
         file.save(script_path)
         return script_path
 
@@ -47,17 +58,20 @@ class ScriptAnalyzer:
             script_content = script_file.read()
         vulnerabilities = self.analyze_vulnerabilities(script_content)
 
-        output_file = f'output/analysis_result.json'
+        # Sort results based on severity (Critical, High, Medium, Low)
+        sorted_results = sorted(
+            vulnerabilities.items(),
+            key=lambda x: max(item["severity"] for item in x[1]),
+            reverse=True
+        )
+
         result = {
-            "vulnerabilities": vulnerabilities,
+            "vulnerabilities": dict(sorted_results),
             "script_path": script_path,
         }
+
+        output_file = f'output/analysis_result.json'
         with open(output_file, 'w') as json_output:
             json.dump(result, json_output, indent=4)
 
         return result
-
-    def get_analysis_results(self):
-        output_file = f'output/analysis_result.json'
-        with open(output_file, 'r') as json_file:
-            return json.load(json_file)
