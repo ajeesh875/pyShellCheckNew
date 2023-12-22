@@ -2,16 +2,16 @@
     {
         "rule_number": 1,
         "pattern": "\\$\\((.*?)\\)",
-        "description": "Command Injection vulnerability detected.",
-        "cve": "CWE-78",
-        "explanation": "Command injection vulnerabilities arise when untrusted data is incorporated into a command that is then executed by the system. Attackers can inject malicious commands, leading to unauthorized access or other security issues.",
+        "description": "OS Command Injection vulnerability detected.",
+        "cwe": "cwe-78",
+        "explanation": "OS Command injection vulnerabilities arise when untrusted data is incorporated into a command that is then executed by the system. Attackers can inject malicious commands, leading to unauthorized access or other security issues.",
         "severity": 9
     },
     {
         "rule_number": 2,
         "pattern": "\\$[a-zA-Z_][a-zA-Z0-9_]*\\s*=",
         "description": "Unsafe Variable Usage detected.",
-        "cve": "CWE-134",
+        "cwe": "cwe-134",
         "explanation": "Unsafe variable usage occurs when variables are used in a way that may lead to security vulnerabilities. This includes using variables without proper sanitation, potentially exposing sensitive information.",
         "severity": 7
     },
@@ -19,71 +19,55 @@
         "rule_number": 3,
         "pattern": "\\b(?:rm|mv|cp|chmod)\\s+\\S+",
         "description": "Potentially Dangerous Command detected.",
-        "cve": "CWE-78",
+        "cwe": "cwe-77",
         "explanation": "Commands like 'rm', 'mv', 'cp', and 'chmod' can be dangerous when used with user-controlled inputs. These commands can lead to unintended file operations and security risks.",
         "severity": 8
     },
     {
         "rule_number": 4,
-        "pattern": "\\bcat\\s+/etc/passwd",
+        "pattern": "\\s+(/etc/passwd|/etc/shadow)",
         "description": "Attempted Access to Sensitive File detected.",
-        "cve": "CWE-200",
-        "explanation": "Accessing sensitive files, such as '/etc/passwd', can lead to unauthorized disclosure of sensitive information. This behavior can be exploited by attackers for reconnaissance purposes.",
+        "cwe": "cwe-200",
+        "explanation": "Accessing sensitive files, such as '/etc/passwd' or '/etc/shadow', can lead to unauthorized disclosure of sensitive information. This behavior can be exploited by attackers for reconnaissance purposes.",
         "severity": 6
     },
     {
         "rule_number": 5,
-        "pattern": "\\bwget\\s+http://malicious-site\\.com",
+        "pattern": "\\bwget\\s+https?: //.+",
         "description": "Potential Download from Malicious Site detected.",
-        "cve": "CWE-829",
+        "cwe": "cwe-829",
         "explanation": "Downloading content from untrusted or malicious sites can expose systems to various risks, including the possibility of downloading and executing malicious content.",
         "severity": 7
     },
     {
         "rule_number": 6,
-        "pattern": "\\b(?:curl|fetch)\\s+http://malicious-site\\.com",
+        "pattern": "\\b(?:curl|fetch)\\s+https?: //.+",
         "description": "Potential Download from Malicious Site detected (alternative).",
-        "cve": "CWE-829",
+        "cwe": "cwe-829",
         "explanation": "Alternative commands like 'curl' or 'fetch' used for downloading from untrusted sites can also pose security risks, including potential malicious content retrieval.",
         "severity": 7
-    },
-    {
-        "rule_number": 7,
-        "pattern": "\\b(?:echo|printf)\\s+[\"'].*?\\$\\(.*?\\)",
-        "description": "Potential Command Injection via Echo/Printf detected.",
-        "cve": "CWE-78",
-        "explanation": "Using 'echo' or 'printf' with untrusted inputs can result in command injection vulnerabilities. Attackers may inject malicious commands into the output, leading to security issues.",
-        "severity": 8
     },
     {
         "rule_number": 8,
         "pattern": "\\b(?:sudo|su)\\s+\\S+",
         "description": "Elevated Privilege Usage detected.",
-        "cve": "CWE-250",
+        "cwe": "cwe-250",
         "explanation": "Elevated privilege usage, such as 'sudo' or 'su', can lead to security risks if not properly configured. Unauthorized access to privileged commands can result in system compromise.",
         "severity": 8
     },
     {
         "rule_number": 9,
-        "pattern": "\\b(?:ssh|scp)\\s+.*?@[a-zA-Z0-9.-]+:[^\\s]+",
+        "pattern": "\\b(?:ssh|scp)\\s+.*?@[a-zA-Z0-9.-]+: [^\\s]+",
         "description": "Potential Secure Shell Command detected.",
-        "cve": "CWE-250",
+        "cwe": "cwe-250",
         "explanation": "Commands related to Secure Shell (SSH), such as 'ssh' or 'scp', should be used securely. Detecting usage with specific patterns can help identify potential security risks in SSH operations.",
-        "severity": 7
-    },
-    {
-        "rule_number": 10,
-        "pattern": "\\b(?:grep|awk|sed)\\s+-e\\s+",
-        "description": "Use of -e flag in grep, awk, or sed detected.",
-        "cve": "CWE-78",
-        "explanation": "The use of the '-e' flag in commands like 'grep', 'awk', or 'sed' may introduce vulnerabilities if the expression is not properly sanitized. This can lead to unintended command execution.",
         "severity": 7
     },
     {
         "rule_number": 11,
         "pattern": "\\b(?:cat|head|tail)\\s+\\S+\\.log",
         "description": "Access to Log Files detected.",
-        "cve": "CWE-200",
+        "cwe": "cwe-200",
         "explanation": "Accessing log files can expose sensitive information. This behavior may indicate an attempt to view or manipulate log files for malicious purposes.",
         "severity": 6
     },
@@ -91,7 +75,7 @@
         "rule_number": 12,
         "pattern": "\\b(?:wget|curl|fetch)\\s+-O\\s+",
         "description": "File Download with Output specified detected.",
-        "cve": "CWE-829",
+        "cwe": "cwe-494",
         "explanation": "Downloading files with user-specified output paths can lead to security risks. It may allow an attacker to overwrite or create files in unintended locations.",
         "severity": 7
     },
@@ -99,7 +83,7 @@
         "rule_number": 13,
         "pattern": "\\b(?:chmod|chown|chgrp)\\s+.*?\\S+",
         "description": "Change Permissions or Ownership detected.",
-        "cve": "CWE-250",
+        "cwe": "cwe-250",
         "explanation": "Changing permissions or ownership of files may introduce security risks if not properly controlled. Unauthorized modifications to file permissions can lead to unauthorized access.",
         "severity": 7
     },
@@ -107,23 +91,15 @@
         "rule_number": 14,
         "pattern": "\\b(?:rm|unlink)\\s+-r\\s+",
         "description": "Recursive File Deletion detected.",
-        "cve": "CWE-78",
+        "cwe": "cwe-78",
         "explanation": "Recursive file deletions can be dangerous, especially if the operation is performed with user-controlled input. It may lead to unintended data loss or removal of critical files.",
-        "severity": 8
-    },
-    {
-        "rule_number": 15,
-        "pattern": "\\b(?:echo|printf)\\s+\\$\\(",
-        "description": "Command Substitution in Echo/Printf detected.",
-        "cve": "CWE-78",
-        "explanation": "Using command substitution within 'echo' or 'printf' statements can introduce command injection vulnerabilities. It's important to properly validate and sanitize such input.",
         "severity": 8
     },
     {
         "rule_number": 16,
         "pattern": "\\b(?:tar|zip|unzip)\\s+.*?\\S+",
         "description": "Archive File Operations detected.",
-        "cve": "CWE-22",
+        "cwe": "cwe-434",
         "explanation": "Operations related to archive files, such as 'tar', 'zip', or 'unzip', should be carefully controlled. Untrusted input in these operations may lead to security issues.",
         "severity": 7
     },
@@ -131,24 +107,24 @@
         "rule_number": 17,
         "pattern": "\\b(?:find|grep)\\s+\\.\\./",
         "description": "Path Traversal detected.",
-        "cve": "CWE-22",
+        "cwe": "cwe-22",
         "explanation": "Using relative paths like '../' in commands such as 'find' or 'grep' may indicate an attempt to perform path traversal attacks, potentially leading to unauthorized access to sensitive files.",
         "severity": 7
     },
     {
         "rule_number": 18,
-        "pattern": "\\b(?:username|password|api_key|secret)\\b",
+        "pattern": "(?i)\\b(?:username|password|api_key|secret)\\b",
         "description": "Hardcoded Credentials Detection.",
         "explanation": "Detection of hardcoded credentials in the script, which can lead to unauthorized access if exposed.",
-        "cve": "CWE-798",
-        "severity": 8
+        "cwe": "cwe-798",
+        "severity": 9
     },
     {
         "rule_number": 19,
         "pattern": "\\$[a-zA-Z_][a-zA-Z0-9_]*\\s*=\\s*\\$",
         "description": "Dangerous Environment Variable Usage.",
         "explanation": "Identifies potentially unsafe usage of environment variables, which may lead to unintended consequences if not properly validated.",
-        "cve": "CWE-134",
+        "cwe": "cwe-807",
         "severity": 7
     },
     {
@@ -156,7 +132,7 @@
         "pattern": "\\b(?:mktemp|tempfile|mkdir)\\s+[-\\w/]+",
         "description": "Insecure Temporary File Creation.",
         "explanation": "Detection of insecure creation or usage of temporary files, which can be exploited for various attacks, including symlink attacks.",
-        "cve": "CWE-377",
+        "cwe": "cwe-377",
         "severity": 8
     },
     {
@@ -164,7 +140,7 @@
         "pattern": "\\$\\(\\s*[\"'][^\\$\\(\\)]*\\$[^(]*\\)\\s*",
         "description": "Unsanitized Input in Command Substitution.",
         "explanation": "Identifies command substitution with unsanitized input, which can lead to command injection vulnerabilities.",
-        "cve": "CWE-78",
+        "cwe": "cwe-78",
         "severity": 9
     },
     {
@@ -172,7 +148,7 @@
         "pattern": "\\b(?:system|popen|exec)\\s*\\(\\s*[\"'].*?[\"']\\s*\\)",
         "description": "Unrestricted External Command Execution.",
         "explanation": "Detection of calls to external commands without proper input validation, increasing the risk of command injection.",
-        "cve": "CWE-78",
+        "cwe": "cwe-78",
         "severity": 8
     },
     {
@@ -180,7 +156,7 @@
         "pattern": "\\b\\(.*?\\)\\b",
         "description": "Unprotected Subshell Execution.",
         "explanation": "Identifies subshell execution without proper validation, which may introduce security risks if untrusted input is used within subshells.",
-        "cve": "CWE-78",
+        "cwe": "cwe-78",
         "severity": 7
     },
     {
@@ -188,23 +164,23 @@
         "pattern": "\\b(?:telnet|ftp|rcp)\\s+",
         "description": "Use of Deprecated or Unsafe Commands.",
         "explanation": "Detection of the use of deprecated or insecure network commands that may pose security risks.",
-        "cve": "CWE-693",
-        "severity": 6
+        "cwe": "cwe-693",
+        "severity": 7
     },
     {
         "rule_number": 25,
         "pattern": "\\b(?:nc|netcat|socat|wget|curl|fetch)\\s+.*?",
         "description": "Unrestricted Access to Network Services.",
         "explanation": "Identifies potentially unsafe network commands without proper validation, which may lead to unauthorized access or data leakage.",
-        "cve": "CWE-284",
+        "cwe": "cwe-284",
         "severity": 7
     },
     {
         "rule_number": 26,
-        "pattern": "\\bsed\\s+'s/.*$/[untrusted_input]/'",
+        "pattern": "\\bsed\\s+'s/.*$/",
         "description": "Unsecured Pattern Matching in Sed.",
         "explanation": "Detection of insecure pattern matching in `sed`, which may introduce vulnerabilities if untrusted input is used in the substitution pattern.",
-        "cve": "CWE-78",
+        "cwe": "cwe-78",
         "severity": 7
     },
     {
@@ -212,7 +188,7 @@
         "pattern": "\\bfunction\\s+\\w+\\s*\\(\\)\\s*{.*?}",
         "description": "Unprotected Command Execution in Functions.",
         "explanation": "Identifies functions that may be vulnerable to command injection if untrusted input is used without proper validation.",
-        "cve": "CWE-78",
+        "cwe": "cwe-78",
         "severity": 8
     },
     {
@@ -220,15 +196,15 @@
         "pattern": "\\b(?:openssl|gnupg)\\s+.*?\\b",
         "description": "Insecure Usage of Encryption Commands.",
         "explanation": "Identifies potentially insecure usage of encryption commands like 'openssl' or 'gnupg' without proper key management and validation.",
-        "cve": "CWE-326",
+        "cwe": "cwe-326",
         "severity": 7
     },
     {
         "rule_number": 29,
-        "pattern": "\\b(?:echo|printf)\\s+.*?\\$\\((.*?)\\)",
+        "pattern": "\\b(?:echo|printf)\\s+([\"']?.*?[\"']?)?\\$\\((.*?)\\)",
         "description": "Command Substitution in Echo/Printf with Untrusted Input.",
         "explanation": "Using command substitution within 'echo' or 'printf' statements with untrusted inputs can introduce command injection vulnerabilities.",
-        "cve": "CWE-78",
+        "cwe": "cwe-78",
         "severity": 8
     },
     {
@@ -236,7 +212,7 @@
         "pattern": "\\b(?:chmod|chown|chgrp)\\s+.*?\\S+\\s+\\$",
         "description": "Change Permissions or Ownership with Unsanitized Input.",
         "explanation": "Changing permissions or ownership of files with untrusted input may introduce security risks if not properly controlled, leading to unauthorized modifications.",
-        "cve": "CWE-250",
+        "cwe": "cwe-250",
         "severity": 7
     },
     {
@@ -244,7 +220,7 @@
         "pattern": "\\b(?:cut|paste|tr)\\s+.*?\\$\\(.*?\\)",
         "description": "Potential Command Injection via Cut/Paste/Tr.",
         "explanation": "Using commands like 'cut', 'paste', or 'tr' with untrusted inputs may lead to command injection vulnerabilities, allowing attackers to manipulate data.",
-        "cve": "CWE-78",
+        "cwe": "cwe-78",
         "severity": 8
     },
     {
@@ -252,7 +228,7 @@
         "pattern": "\\b(?:awk|sed)\\s+-F\\s+\\$",
         "description": "Use of -F Flag in Awk/Sed with Unsanitized Input.",
         "explanation": "The use of the '-F' flag in 'awk' or 'sed' with untrusted input may introduce vulnerabilities if the field separator is not properly sanitized.",
-        "cve": "CWE-78",
+        "cwe": "cwe-78",
         "severity": 7
     },
     {
@@ -260,7 +236,7 @@
         "pattern": "\\b(?:mkfifo|mknode)\\s+\\S+",
         "description": "Creation of Named Pipes or Nodes Detected.",
         "explanation": "Detection of the creation of named pipes or nodes, which may introduce security risks if not properly controlled, potentially leading to unauthorized access or data leakage.",
-        "cve": "CWE-22",
+        "cwe": "cwe-22",
         "severity": 7
     },
     {
@@ -268,7 +244,7 @@
         "pattern": "\\b(?:rev|tac)\\s+\\S+",
         "description": "Usage of Rev/Tac Commands Detected.",
         "explanation": "Identifies the usage of 'rev' or 'tac' commands, which may introduce vulnerabilities if untrusted input is used without proper validation.",
-        "cve": "CWE-78",
+        "cwe": "cwe-78",
         "severity": 6
     },
     {
@@ -276,7 +252,7 @@
         "pattern": "\\b(?:printf|echo)\\s+-n\\s+",
         "description": "Use of -n Flag in Printf/Echo.",
         "explanation": "The use of the '-n' flag in commands like 'printf' or 'echo' may introduce vulnerabilities if not handled carefully, potentially leading to unexpected behavior.",
-        "cve": "CWE-685",
+        "cwe": "cwe-685",
         "severity": 6
     },
     {
@@ -284,7 +260,7 @@
         "pattern": "\\b(?:zcat|bzcat|xzcat)\\s+\\S+",
         "description": "Untrusted Decompression Command Usage Detected.",
         "explanation": "Detection of potentially unsafe usage of decompression commands like 'zcat', 'bzcat', or 'xzcat' with untrusted input.",
-        "cve": "CWE-244",
+        "cwe": "cwe-244",
         "severity": 7
     },
     {
@@ -292,7 +268,71 @@
         "pattern": "\\b(?:mail|sendmail)\\s+-s\\s+.*?\\$",
         "description": "Command Injection via Mail/Sendmail Subject.",
         "explanation": "The usage of untrusted input in the subject field of 'mail' or 'sendmail' commands may introduce command injection vulnerabilities.",
-        "cve": "CWE-78",
+        "cwe": "cwe-78",
+        "severity": 8
+    },
+    {
+        "rule_number": 38,
+        "pattern": "\\b(?:SELECT|INSERT|DELETE|UPDATE|DROP)\\s+.*?['\";]",
+        "description": "Detection of potential SQL Injection.",
+        "explanation": "Identifies patterns indicative of SQL injection, such as SQL keywords followed by untrusted input, potentially leading to unauthorized database access or manipulation.",
+        "cwe": "cwe-89",
+        "severity": 9
+    },
+    {
+        "rule_number": 39,
+        "pattern": "<script>.*?</script>",
+        "description": "Detection of potential Cross-Site Scripting (XSS).",
+        "explanation": "Identifies the use of <script> tags in input, which could lead to XSS attacks if the input is rendered in a web context without proper sanitization.",
+        "cwe": "cwe-79",
+        "severity": 8
+    },
+    {
+        "rule_number": 40,
+        "pattern": "chmod\\s+(777|666)\\s+\\S+",
+        "description": "Detection of Insecure File Permissions Setting.",
+        "explanation": "Identifies the use of insecure file permissions (such as 777 or 666), which could lead to unauthorized file access or modification.",
+        "cwe": "cwe-732",
+        "severity": 7
+    },
+    {
+        "rule_number": 41,
+        "pattern": "\\b(?:password|secret)\\s*=\\s*['\"].+['\"]",
+        "description": "Detection of Hardcoded Sensitive Information.",
+        "explanation": "Identifies hardcoded sensitive information like passwords or secrets in the code, which could lead to information disclosure if the code is exposed.",
+        "cwe": "cwe-798",
+        "severity": 8
+    },
+    {
+        "rule_number": 42,
+        "pattern": "\\b(?:md5|sha1)\\s*\\(",
+        "description": "Detection of Insecure Use of Cryptographic Functions.",
+        "explanation": "Identifies the use of weak cryptographic functions like MD5 or SHA1, which are not recommended due to known vulnerabilities.",
+        "cwe": "cwe-327",
+        "severity": 7
+    },
+    {
+        "rule_number": 43,
+        "pattern": "system\\s*\\(.*\\)",
+        "description": "Detection of System Command Execution.",
+        "explanation": "Identifies direct calls to 'system' function, which could lead to command injection if untrusted input is used.",
+        "cwe": "cwe-78",
+        "severity": 8
+    },
+    {
+        "rule_number": 44,
+        "pattern": "eval\\s*\\(.*\\)",
+        "description": "Detection of Eval Function Usage.",
+        "explanation": "Identifies usage of the 'eval' function, which can execute arbitrary code and introduce severe security risks if used with untrusted input.",
+        "cwe": "cwe-94",
+        "severity": 9
+    },
+    {
+        "rule_number": 45,
+        "pattern": "exec\\s*\\(.*\\)",
+        "description": "Detection of Exec Function Usage.",
+        "explanation": "Identifies usage of the 'exec' function, which could lead to command execution vulnerabilities if not properly validated or sanitized.",
+        "cwe": "cwe-78",
         "severity": 8
     }
 ]

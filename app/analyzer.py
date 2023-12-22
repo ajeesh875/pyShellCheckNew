@@ -18,7 +18,7 @@ class ScriptAnalyzer:
             {
                 "pattern": content['pattern'],
                 "description": content['description'],
-                "cve": content.get('cve'),
+                "cwe": content.get('cwe'),
                 "explanation": content.get('explanation'),
                 "severity": content['severity']
             }
@@ -40,7 +40,7 @@ class ScriptAnalyzer:
                     vulnerability_data = {
                         "line_number": line_number,
                         "word": word,
-                        "cve": rule["cve"],
+                        "cwe": rule["cwe"],
                         "explanation": rule["explanation"],
                         "severity": rule["severity"]
                     }
