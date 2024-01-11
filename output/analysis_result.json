@@ -1,53 +1,53 @@
 {
     "vulnerabilities": {
-        "Command Injection vulnerability detected.": [
+        "OS Command Injection vulnerability detected.": [
             {
                 "line_number": 5,
                 "word": "$(echo \"User input: $user_input\")",
-                "cve": "CWE-78",
-                "explanation": "Command injection vulnerabilities arise when untrusted data is incorporated into a command that is then executed by the system. Attackers can inject malicious commands, leading to unauthorized access or other security issues.",
+                "cwe": "cwe-78",
+                "explanation": "OS Command injection vulnerabilities arise when untrusted data is incorporated into a command that is then executed by the system. Attackers can inject malicious commands, leading to unauthorized access or other security issues.",
                 "severity": 9
             },
             {
                 "line_number": 30,
                 "word": "$(ls)",
-                "cve": "CWE-78",
-                "explanation": "Command injection vulnerabilities arise when untrusted data is incorporated into a command that is then executed by the system. Attackers can inject malicious commands, leading to unauthorized access or other security issues.",
+                "cwe": "cwe-78",
+                "explanation": "OS Command injection vulnerabilities arise when untrusted data is incorporated into a command that is then executed by the system. Attackers can inject malicious commands, leading to unauthorized access or other security issues.",
                 "severity": 9
             },
             {
                 "line_number": 45,
                 "word": "$($command)",
-                "cve": "CWE-78",
-                "explanation": "Command injection vulnerabilities arise when untrusted data is incorporated into a command that is then executed by the system. Attackers can inject malicious commands, leading to unauthorized access or other security issues.",
+                "cwe": "cwe-78",
+                "explanation": "OS Command injection vulnerabilities arise when untrusted data is incorporated into a command that is then executed by the system. Attackers can inject malicious commands, leading to unauthorized access or other security issues.",
                 "severity": 9
             },
             {
                 "line_number": 49,
                 "word": "$(echo \"User input: $input\")",
-                "cve": "CWE-78",
-                "explanation": "Command injection vulnerabilities arise when untrusted data is incorporated into a command that is then executed by the system. Attackers can inject malicious commands, leading to unauthorized access or other security issues.",
+                "cwe": "cwe-78",
+                "explanation": "OS Command injection vulnerabilities arise when untrusted data is incorporated into a command that is then executed by the system. Attackers can inject malicious commands, leading to unauthorized access or other security issues.",
                 "severity": 9
             },
             {
                 "line_number": 52,
                 "word": "$(echo 'hello')",
-                "cve": "CWE-78",
-                "explanation": "Command injection vulnerabilities arise when untrusted data is incorporated into a command that is then executed by the system. Attackers can inject malicious commands, leading to unauthorized access or other security issues.",
+                "cwe": "cwe-78",
+                "explanation": "OS Command injection vulnerabilities arise when untrusted data is incorporated into a command that is then executed by the system. Attackers can inject malicious commands, leading to unauthorized access or other security issues.",
                 "severity": 9
             },
             {
                 "line_number": 52,
                 "word": "$(echo '; echo \"Command Injection\";')",
-                "cve": "CWE-78",
-                "explanation": "Command injection vulnerabilities arise when untrusted data is incorporated into a command that is then executed by the system. Attackers can inject malicious commands, leading to unauthorized access or other security issues.",
+                "cwe": "cwe-78",
+                "explanation": "OS Command injection vulnerabilities arise when untrusted data is incorporated into a command that is then executed by the system. Attackers can inject malicious commands, leading to unauthorized access or other security issues.",
                 "severity": 9
             },
             {
                 "line_number": 53,
                 "word": "$(echo \"User input: $input3\")",
-                "cve": "CWE-78",
-                "explanation": "Command injection vulnerabilities arise when untrusted data is incorporated into a command that is then executed by the system. Attackers can inject malicious commands, leading to unauthorized access or other security issues.",
+                "cwe": "cwe-78",
+                "explanation": "OS Command injection vulnerabilities arise when untrusted data is incorporated into a command that is then executed by the system. Attackers can inject malicious commands, leading to unauthorized access or other security issues.",
                 "severity": 9
             }
         ],
@@ -55,22 +55,38 @@
             {
                 "line_number": 8,
                 "word": "password",
-                "cve": "CWE-798",
+                "cwe": "cwe-798",
                 "explanation": "Detection of hardcoded credentials in the script, which can lead to unauthorized access if exposed.",
-                "severity": 8
+                "severity": 9
             },
             {
                 "line_number": 8,
                 "word": "secret",
-                "cve": "CWE-798",
+                "cwe": "cwe-798",
                 "explanation": "Detection of hardcoded credentials in the script, which can lead to unauthorized access if exposed.",
-                "severity": 8
+                "severity": 9
+            },
+            {
+                "line_number": 9,
+                "word": "Password",
+                "cwe": "cwe-798",
+                "explanation": "Detection of hardcoded credentials in the script, which can lead to unauthorized access if exposed.",
+                "severity": 9
             },
             {
                 "line_number": 9,
                 "word": "password",
-                "cve": "CWE-798",
+                "cwe": "cwe-798",
                 "explanation": "Detection of hardcoded credentials in the script, which can lead to unauthorized access if exposed.",
+                "severity": 9
+            }
+        ],
+        "Detection of Hardcoded Sensitive Information.": [
+            {
+                "line_number": 8,
+                "word": "password=\"secret\"",
+                "cwe": "cwe-798",
+                "explanation": "Identifies hardcoded sensitive information like passwords or secrets in the code, which could lead to information disclosure if the code is exposed.",
                 "severity": 8
             }
         ],
@@ -78,31 +94,15 @@
             {
                 "line_number": 13,
                 "word": "rm $filename",
-                "cve": "CWE-78",
+                "cwe": "cwe-77",
                 "explanation": "Commands like 'rm', 'mv', 'cp', and 'chmod' can be dangerous when used with user-controlled inputs. These commands can lead to unintended file operations and security risks.",
                 "severity": 8
             },
             {
                 "line_number": 18,
                 "word": "mv /path/to/source",
-                "cve": "CWE-78",
+                "cwe": "cwe-77",
                 "explanation": "Commands like 'rm', 'mv', 'cp', and 'chmod' can be dangerous when used with user-controlled inputs. These commands can lead to unintended file operations and security risks.",
-                "severity": 8
-            }
-        ],
-        "Potential Command Injection via Echo/Printf detected.": [
-            {
-                "line_number": 30,
-                "word": "echo \"Input: $(ls)",
-                "cve": "CWE-78",
-                "explanation": "Using 'echo' or 'printf' with untrusted inputs can result in command injection vulnerabilities. Attackers may inject malicious commands into the output, leading to security issues.",
-                "severity": 8
-            },
-            {
-                "line_number": 52,
-                "word": "echo 'hello')$(echo '; echo \"Command Injection\";')",
-                "cve": "CWE-78",
-                "explanation": "Using 'echo' or 'printf' with untrusted inputs can result in command injection vulnerabilities. Attackers may inject malicious commands into the output, leading to security issues.",
                 "severity": 8
             }
         ],
@@ -110,14 +110,14 @@
             {
                 "line_number": 30,
                 "word": "echo \"Input: $(ls)",
-                "cve": "CWE-78",
+                "cwe": "cwe-78",
                 "explanation": "Using command substitution within 'echo' or 'printf' statements with untrusted inputs can introduce command injection vulnerabilities.",
                 "severity": 8
             },
             {
                 "line_number": 52,
                 "word": "echo 'hello')$(echo '; echo \"Command Injection\";')",
-                "cve": "CWE-78",
+                "cwe": "cwe-78",
                 "explanation": "Using command substitution within 'echo' or 'printf' statements with untrusted inputs can introduce command injection vulnerabilities.",
                 "severity": 8
             }
@@ -126,63 +126,36 @@
             {
                 "line_number": 33,
                 "word": "sudo ls",
-                "cve": "CWE-250",
+                "cwe": "cwe-250",
                 "explanation": "Elevated privilege usage, such as 'sudo' or 'su', can lead to security risks if not properly configured. Unauthorized access to privileged commands can result in system compromise.",
                 "severity": 8
-            }
-        ],
-        "Potential Download from Malicious Site detected.": [
-            {
-                "line_number": 24,
-                "word": "wget http://malicious-site.com",
-                "cve": "CWE-829",
-                "explanation": "Downloading content from untrusted or malicious sites can expose systems to various risks, including the possibility of downloading and executing malicious content.",
-                "severity": 7
             }
         ],
         "Unrestricted Access to Network Services.": [
             {
                 "line_number": 24,
                 "word": "wget ",
-                "cve": "CWE-284",
+                "cwe": "cwe-284",
                 "explanation": "Identifies potentially unsafe network commands without proper validation, which may lead to unauthorized access or data leakage.",
                 "severity": 7
             },
             {
                 "line_number": 27,
                 "word": "curl ",
-                "cve": "CWE-284",
+                "cwe": "cwe-284",
                 "explanation": "Identifies potentially unsafe network commands without proper validation, which may lead to unauthorized access or data leakage.",
-                "severity": 7
-            }
-        ],
-        "Potential Download from Malicious Site detected (alternative).": [
-            {
-                "line_number": 27,
-                "word": "curl http://malicious-site.com",
-                "cve": "CWE-829",
-                "explanation": "Alternative commands like 'curl' or 'fetch' used for downloading from untrusted sites can also pose security risks, including potential malicious content retrieval.",
-                "severity": 7
-            }
-        ],
-        "Use of -e flag in grep, awk, or sed detected.": [
-            {
-                "line_number": 39,
-                "word": "grep -e ",
-                "cve": "CWE-78",
-                "explanation": "The use of the '-e' flag in commands like 'grep', 'awk', or 'sed' may introduce vulnerabilities if the expression is not properly sanitized. This can lead to unintended command execution.",
                 "severity": 7
             }
         ],
         "Attempted Access to Sensitive File detected.": [
             {
                 "line_number": 21,
-                "word": "cat /etc/passwd",
-                "cve": "CWE-200",
-                "explanation": "Accessing sensitive files, such as '/etc/passwd', can lead to unauthorized disclosure of sensitive information. This behavior can be exploited by attackers for reconnaissance purposes.",
+                "word": " /etc/passwd",
+                "cwe": "cwe-200",
+                "explanation": "Accessing sensitive files, such as '/etc/passwd' or '/etc/shadow', can lead to unauthorized disclosure of sensitive information. This behavior can be exploited by attackers for reconnaissance purposes.",
                 "severity": 6
             }
         ]
     },
-    "script_path": "uploads\\uploaded_folder_a5jgllzp\\scripts_scripts_example1.sh"
+    "script_path": "uploads\\uploaded_folder_kke09afh\\scripts_scripts_example1.sh"
 }

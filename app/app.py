@@ -40,8 +40,8 @@ class ShellScriptAnalyzerApp:
 
                     for file_or_folder in files:
                         if file_or_folder.filename:
-                            script_path = self.analyzer.save_uploaded_script(file_or_folder)
-                            result = self.analyzer.analyze_script(script_path)
+                            self.script_path = self.analyzer.save_uploaded_script(file_or_folder)
+                            result = self.analyzer.analyze_script(self.script_path)
                             result['filename'] = file_or_folder.filename
                             results.append(result)
 
@@ -53,29 +53,6 @@ class ShellScriptAnalyzerApp:
         def show_results():
             results = self.analyzer.get_analysis_results()
             return render_template('results.html', results=results)
-
-        @app.route('/download/<format>', methods=['GET'])
-        def download_result(format):
-            results = self.analyzer.get_analysis_results()
-            if format == 'html':
-                html_filename = 'analysis_result.html'
-                html_path = os.path.join('output', html_filename)
-                html_content = render_template('results.html', results=results)
-                
-                with open(html_path, 'w') as html_file:
-                    html_file.write(html_content)
-
-                return send_from_directory('../output', html_filename, as_attachment=True)
-            
-            elif format == 'json':
-                json_filename = 'analysis_result.json'
-                json_path = os.path.join('output', json_filename)
-                json_content = results
-
-                with open(json_path, 'w') as json_file:
-                    json.dump(json_content, json_file, indent=4)
-
-                return send_from_directory('../output', json_filename, as_attachment=True)
 
     def analyze_folder(self, folder_path):
         shell_script_results = []

@@ -19,7 +19,7 @@
         {% for result in results %}
     <h3>Results for {{ result.filename }}</h3>
 
-    {% for description, items in result.vulnerabilities.items() %}
+    {% for description, items in result.vulnerabilities.items() | default([]) %}
         <section class="mb-4">
             <ul class="list-group">
                 {% for item in items %}
@@ -52,11 +52,6 @@
         </section>
     {% endfor %}
 {% endfor %}
-
-        <div class="download-links">
-            <a href="{{ url_for('download_result', format='html') }}" class="btn btn-primary">Download as HTML</a>
-            <a href="{{ url_for('download_result', format='json') }}" class="btn btn-primary">Download as JSON</a>
-        </div>
 
         <footer class="mt-5 border-top pt-3">
             <p class="mb-1">Script Path: {{ results.script_path }}</p>

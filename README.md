@@ -12,6 +12,8 @@ The Shell Script Analyzer is a tool designed to analyze shell scripts for potent
 
 - **JSON Output**: Generates JSON reports of the analysis results for further processing or integration with other tools.
 
+- **Upload convenience**: Upload single shell script files or entire folders for analysis.
+
 ## Getting Started
 
 Follow these instructions to get the project up and running on your local machine.
@@ -53,7 +55,7 @@ pip install -r requirements.txt
    
 2. Access the web interface in your browser at http://localhost:5000.
 
-3. Upload a shell script file to analyze.
+3. Upload a shell script file or entire folder to analyze.
 
 4. View the analysis results, which will include detected vulnerabilities.
 
