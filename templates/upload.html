@@ -1,68 +1,99 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Shell Script Analyzer</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='bootstrap/css/bootstrap.min.css') }}">
 </head>
-
-<body class="d-flex align-items-center justify-content-center vh-100">
-    <div class="container">
-        <header class="bg-dark text-white text-center py-4">
-            <div class="container">
-                <h1 class="display-4">Shell Script Analyzer</h1>
-                <p class="lead">Upload a Shell Script File or Folder for Analysis</p>
-            </div>
+<body class="bg-light">
+    <div class="container py-5">
+        <header class="mb-5">
+            <h1 class="display-4 text-center mb-3" style="color: #fff; background-color: #007bff; padding: 20px 0; border-radius: 8px;">Shell Script Analyzer</h1>
+            <p class="lead text-center" style="color: #6c757d;">Upload a Shell Script File or Folder for Analysis</p>
         </header>
-
-        <div class="container mt-4">
-            <form method="POST" enctype="multipart/form-data">
-                <div class="mb-3">
-                    <label for="actionSelect" class="form-label">Select an action</label>
-                    <select class="form-select" id="actionSelect" name="selectedAction" required>
-                        <option value="folder">Choose a folder</option>
-                        <option value="files">Choose files</option>
-                    </select>
-                </div>
-
-                <div id="folderOption" class="mb-3">
-                    <label for="folderInput" class="form-label">Choose a folder</label>
-                    <input type="file" name="file_or_folder" class="form-control" id="folderInput" webkitdirectory directory>
-                </div>
-
-                <div id="filesOption" class="mb-3" style="display: none;">
-                    <label for="fileInput" class="form-label">Choose files</label>
-                    <input type="file" name="files[]" class="form-control" id="fileInput" multiple>
-                </div>
-
-                <button type="submit" class="btn btn-primary">Upload</button>
-            </form>
-        </div>
-
-        <footer class="bg-light text-center py-3">
-            <div class="container">
-                <p class="mb-0 text-muted">&copy; 2023 Shell Script Analyzer</p>
+        <div class="card shadow-sm">
+            <div class="card-body">
+                <form method="POST" enctype="multipart/form-data" id="uploadForm">
+                    <table class="table table-borderless">
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <label for="actionSelect" class="form-label">Select an action</label>
+                                    <select class="form-select" id="actionSelect" name="selectedAction" aria-label="Select action" required>
+                                        <option value="folder" selected>Choose a folder</option>
+                                        <option value="files">Choose files</option>
+                                    </select>
+                                </td>
+                                <td>
+                                    <div id="folderOption" class="input-group">
+                                        <input type="file" name="file_or_folder" class="form-control" id="folderInput" webkitdirectory directory style="display: none;" aria-label="File input for folder">
+                                        <button type="button" id="folderButton" class="btn btn-outline-primary" aria-label="Choose folder button">Choose folder</button>
+                                        <span id="folderLabel" class="input-group-text">No folder selected</span>
+                                    </div>
+                                    <div id="filesOption" class="input-group" style="display: none;">
+                                        <input type="file" name="files[]" class="form-control" id="fileInput" multiple style="display: none;" aria-label="File input for multiple files">
+                                        <button type="button" id="filesButton" class="btn btn-outline-primary" aria-label="Choose files button">Choose files</button>
+                                        <span id="filesLabel" class="input-group-text">No files selected</span>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="mt-4 text-center">
+                        <button type="submit" class="btn btn-dark" id="submitBtn" aria-label="Upload button">Upload</button>
+                    </div>
+                </form>
             </div>
+        </div>
+        <footer class="text-center py-4 mt-5">
+            <p class="mb-0 text-muted">&copy; 2024 Shell Script Analyzer</p>
         </footer>
     </div>
-
     <script src="{{ url_for('static', filename='bootstrap/js/bootstrap.bundle.min.js') }}"></script>
     <script>
-        document.getElementById('actionSelect').addEventListener('change', function () {
-            var folderOption = document.getElementById('folderOption');
-            var filesOption = document.getElementById('filesOption');
+        document.addEventListener("DOMContentLoaded", function() {
+            updateDisplay();
 
-            if (this.value === 'folder') {
-                folderOption.style.display = 'block';
-                filesOption.style.display = 'none';
-            } else {
-                folderOption.style.display = 'none';
-                filesOption.style.display = 'block';
+            var uploadForm = document.getElementById('uploadForm');
+            var submitBtn = document.getElementById('submitBtn');
+            var folderInput = document.getElementById('folderInput');
+            var fileInput = document.getElementById('fileInput');
+
+            document.getElementById('folderButton').addEventListener('click', function() {
+                folderInput.click();
+            });
+
+            folderInput.addEventListener('change', function() {
+                document.getElementById('folderLabel').textContent = this.files.length ? this.files[0].webkitRelativePath.split('/')[0] : 'No folder selected';
+            });
+
+            document.getElementById('filesButton').addEventListener('click', function() {
+                fileInput.click();
+            });
+
+            fileInput.addEventListener('change', function() {
+                var fileCount = this.files.length;
+                document.getElementById('filesLabel').textContent = fileCount === 1 ? this.files[0].name : `${fileCount} files selected`;
+            });
+
+            document.getElementById('actionSelect').addEventListener('change', updateDisplay);
+
+            function updateDisplay() {
+                var folderOption = document.getElementById('folderOption');
+                var filesOption = document.getElementById('filesOption');
+                var actionSelect = document.getElementById('actionSelect').value;
+                if (actionSelect === 'folder') {
+                    folderOption.style.display = '';
+                    filesOption.style.display = 'none';
+                } else {
+                    folderOption.style.display = 'none';
+                    filesOption.style.display = '';
+                }
             }
+
+            updateDisplay(); // Call it on page load as well
         });
     </script>
 </body>
-
 </html>

@@ -1,12 +1,13 @@
 [
     {
         "rule_number": 1,
-        "pattern": "\\$\\((.*?)\\)",
-        "description": "OS Command Injection vulnerability detected.",
+        "pattern": "(rm|mv|cp|chmod|chown|curl|wget|fetch|system|exec|popen|passthru|shell_exec|`|cmd.exe|bash|sh|powershell|telnet|ssh|scp|sftp|ftp|nc|netcat|tar|gzip|gunzip|zip|unzip)\\s+['\"]?(.*?['\"]?\\s*;|\\s+)",
+        "description": "Potential OS Command Injection vulnerability detected.",
         "cwe": "cwe-78",
-        "explanation": "OS Command injection vulnerabilities arise when untrusted data is incorporated into a command that is then executed by the system. Attackers can inject malicious commands, leading to unauthorized access or other security issues.",
+        "explanation": "This pattern detects the use of system commands that could be potentially misused for OS command injection. Careful review is required to determine if usage is secure or vulnerable to injection.",
         "severity": 9
-    },
+    }
+    ,
     {
         "rule_number": 2,
         "pattern": "\\$[a-zA-Z_][a-zA-Z0-9_]*\\s*=",

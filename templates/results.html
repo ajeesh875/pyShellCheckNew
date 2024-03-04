@@ -1,70 +1,78 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Script Analysis Results</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='bootstrap/css/bootstrap.min.css') }}">
 </head>
-
 <body class="bg-light">
-    <header class="bg-dark text-white text-center py-3">
-        <div class="container">
-            <h1 class="display-5">Script Analysis Results</h1>
-        </div>
+    <header class="text-white text-center py-4 mb-4" style="background-color: #007bff;">
+        <h1 class="display-4">Script Analysis Results</h1>
     </header>
 
-    <div class="container mt-5">
-        {% for result in results %}
-    <h3>Results for {{ result.filename }}</h3>
-
-    {% for description, items in result.vulnerabilities.items() | default([]) %}
-        <section class="mb-4">
-            <ul class="list-group">
-                {% for item in items %}
-                    <li class="list-group-item">
-                        <p class="mb-1">
-                            <span class="font-weight-bold">{{ description }}</span>
-                            <span class="font-weight-bold">Line {{ item.line_number }}:</span>
-                            <span class="ml-2">{{ item.word }}</span>
-                        </p>
-                        {% if item.cwe %}
-                            <p class="mb-0 text-muted">
-                                CWE: {{ item.cwe }} - {{ item.explanation }}
-                            </p>
+    <div class="container my-5">
+        <div class="text-center mb-4">
+            <button onclick="history.back()" class="btn btn-secondary">Back</button>
+        </div>
+        {% if results %}
+            {% for result in results %}
+                <div class="card mb-4 shadow-sm">
+                    <div class="card-header">
+                        <h3 class="my-0 font-weight-normal">Results for {{ result.filename }}</h3>
+                    </div>
+                    <div class="card-body">
+                        {% if result.vulnerabilities|length > 0 %}
+                            {% for description, items in result.vulnerabilities.items() %}
+                                <section class="mb-3">
+                                    <h4 class="card-title">{{ description }}</h4>
+                                    <ul class="list-group list-group-flush">
+                                        {% for item in items %}
+                                            <li class="list-group-item">
+                                                <p class="mb-1">
+                                                    Line {{ item.line_number }}: <strong>{{ item.word }}</strong>
+                                                </p>
+                                                {% if item.cwe %}
+                                                    <p class="mb-0 text-muted">
+                                                        CWE: {{ item.cwe }} - {{ item.explanation }}
+                                                    </p>
+                                                {% endif %}
+                                                <p class="mb-0">
+                                                    Severity: 
+                                                    {% if item.severity >= 9 %}
+                                                        <span class="badge bg-danger">Critical</span>
+                                                    {% elif item.severity >= 7 %}
+                                                        <span class="badge bg-warning">High</span>
+                                                    {% elif item.severity >= 4 %}
+                                                        <span class="badge bg-info">Medium</span>
+                                                    {% else %}
+                                                        <span class="badge bg-success">Low</span>
+                                                    {% endif %}
+                                                </p>
+                                            </li>
+                                        {% endfor %}
+                                    </ul>
+                                </section>
+                            {% endfor %}
+                        {% else %}
+                            <div class="alert alert-info" role="alert">
+                                No vulnerabilities found for {{ result.filename }}.
+                            </div>
                         {% endif %}
-                        <p class="mb-0">
-                            <span class="font-weight-bold">Severity:</span>
-                            {% if item.severity >= 9 %}
-                                <span class="text-danger">Critical</span>
-                            {% elif item.severity == 8 %}
-                                <span class="text-warning">High</span>
-                            {% elif item.severity in [6, 7] %}
-                                <span class="text-info">Medium</span>
-                            {% else %}
-                                <span class="text-success">Low</span>
-                            {% endif %}
-                        </p>
-                    </li>
-                {% endfor %}
-            </ul>
-        </section>
-    {% endfor %}
-{% endfor %}
-
-        <footer class="mt-5 border-top pt-3">
-            <p class="mb-1">Script Path: {{ results.script_path }}</p>
-        </footer>
+                    </div>
+                </div>
+            {% endfor %}
+        {% else %}
+            <div class="alert alert-info" role="alert">
+                No files were analyzed.
+            </div>
+        {% endif %}
     </div>
 
-    <footer class="bg-light text-center py-3">
-        <div class="container">
-            <p class="mb-0 text-muted">&copy; 2023 Script Analysis Results</p>
-        </div>
+    <footer class="text-center py-4 mt-md-5">
+        <p class="mb-0 text-muted">&copy; 2024 Script Analysis Results</p>
     </footer>
 
     <script src="{{ url_for('static', filename='bootstrap/js/bootstrap.bundle.min.js') }}"></script>
 </body>
-
 </html>
